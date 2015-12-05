@@ -1,5 +1,5 @@
 function love.load()
-	scale = 10
+	scale = 5
 	purple = { spritesheet = love.graphics.newImage("purple.png") }
 	purple.spritesheet:setFilter('nearest', 'nearest')
 	purple.still = love.graphics.newQuad(0, 0, 8, 8, 24, 8)
@@ -11,6 +11,7 @@ function love.load()
 	position = { x = love.graphics.getWidth()/(2*scale)-4, y = love.graphics.getHeight()/(2*scale)-4 }
 	velocity = { x = 0, y = 0 }
 	speed = 1
+	speedMultiplier = 1
 	counter = 0
 	tick = 0
 end
@@ -38,25 +39,25 @@ function love.update(dt)
 	counter = (counter + 120 * dt) % 120
 
 	if love.keyboard.isDown('up') then
-		position.y = position.y - speed
+		position.y = position.y - speed*speedMultiplier
 		if position.y < 0 then
 			position.y = 0
 		end
 	end
 	if love.keyboard.isDown('down') then
-		position.y = position.y + speed
+		position.y = position.y + speed*speedMultiplier
 		if position.y > love.graphics.getHeight()/scale-8 then
 			position.y = love.graphics.getHeight()/scale-8
 		end
 	end
 	if love.keyboard.isDown('left') then
-		position.x = position.x - speed
+		position.x = position.x - speed*speedMultiplier
 		if position.x < 0 then
 			position.x = 0
 		end
 	end
 	if love.keyboard.isDown('right') then
-		position.x = position.x + speed
+		position.x = position.x + speed*speedMultiplier
 		if position.x > love.graphics.getWidth()/scale-8 then
 			position.x = love.graphics.getWidth()/scale-8
 		end
@@ -84,6 +85,9 @@ function love.keypressed(key)
 	if key == ' ' then
 		running = not running
 	end
+	if key == 'lshift' then
+		speedMultiplier = 2
+	end
 end
 
 function love.keyreleased(key)
@@ -93,5 +97,7 @@ function love.keyreleased(key)
 		else
 			purple.facing = 'left'
 		end
+	elseif key == 'lshift' then
+		speedMultiplier = 1
 	end
 end
