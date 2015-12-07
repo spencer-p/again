@@ -6,7 +6,7 @@ function Purple:new()
   return setmetatable(object, self)
 end
 
-function Purple:load()
+function Purple:init()
 
   -- load the sprite sheet
   self.spritesheet = love.graphics.newImage(self.src.path)

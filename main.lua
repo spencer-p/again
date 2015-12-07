@@ -4,7 +4,7 @@ function love.load()
 	scale = 5
 	love.graphics.setBackgroundColor(32, 32, 32)
 	player = Purple:new()
-	player:load()
+	player:init()
 	counter = 0
 	tick = 0
 end
