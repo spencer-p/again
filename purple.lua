@@ -1,7 +1,7 @@
 Purple = {}
 
 function Purple:new()
-  local object = { src = { path = "purple.png", size = 8 } }
+  local object = { src = { path = "assets/purple.png", size = 8 } }
   self.__index = self
   return setmetatable(object, self)
 end
