@@ -4,15 +4,14 @@ function love.load()
 	scale = 5
 	love.graphics.setBackgroundColor(32, 32, 32)
 	player = Purple:new()
-	player:init()
-	counter = 0
+	player:init(love.graphics.getWidth()/scale, love.graphics.getHeight()/scale)
 	tick = 0
 end
 
 function love.focus(f) running = f end
 
 function love.draw()
-	love.graphics.print(math.floor(counter).." "..love.timer.getFPS(), 0, 0)
+	love.graphics.print(love.timer.getFPS(), 0, 0)
 	love.graphics.scale(scale)
 	player:draw()
 end
@@ -25,7 +24,7 @@ function love.update(dt)
 	if tick < 2 then return end
 	tick = 0
 
-	player:update(dt)
+	player:update(dt, love.graphics.getWidth()/scale, love.graphics.getHeight()/scale)
 
 end
 

@@ -6,7 +6,7 @@ function Purple:new()
 	return setmetatable(object, self)
 end
 
-function Purple:init()
+function Purple:init(width, height)
 
 	-- load the sprite sheet
 	self.spritesheet = love.graphics.newImage(self.src.path)
@@ -20,9 +20,12 @@ function Purple:init()
 
 	-- player's metadata
 	self.facing = "right"
-	self.pos = { x = love.graphics.getWidth()/(2*scale)-(self.src.size/2), y = love.graphics.getHeight()/(2*scale)-(self.src.size/2) }
+	self.pos = { x = width/(2*scale)-(self.src.size/2), y = height/(2*scale)-(self.src.size/2) }
 	self.velocity = { x = 0, y = 0 }
 	self.speed = 1
+
+	-- for the updater
+	self.counter = 0
 
 end
 
@@ -37,7 +40,7 @@ function Purple:draw()
 
 end
 
-function Purple:update(dt)
+function Purple:update(dt, width, height)
 
 	-- input checks for movement
 
@@ -51,7 +54,10 @@ function Purple:update(dt)
 
 	-- DOWN
 	if love.keyboard.isDown('down') then
-		self.pos.y = self.pos.y + self.speed % (love.graphics.getHeight()/scale-self.src.size)
+		self.pos.y = self.pos.y + self.speed
+		if self.pos.y > height-self.src.size then
+			self.pos.y = height-self.src.size
+		end
 	end
 
 	-- LEFT
@@ -64,15 +70,18 @@ function Purple:update(dt)
 
 	-- RIGHT
 	if love.keyboard.isDown('right') then
-		self.pos.x = self.pos.x + self.speed % (love.graphics.getWidth()/scale-self.src.size)
+		self.pos.x = self.pos.x + self.speed
+		if self.pos.x > width-self.src.size then
+			self.pos.x = width-self.src.size
+		end
 	end
 
 
 	-- decide which leg will be out
-	counter = (counter + 120 * dt) % 120 -- twice a second i think
+	self.counter = (self.counter + 120 * dt) % 120 -- twice a second i think
 
 	if love.keyboard.isDown('up') or love.keyboard.isDown('down') or love.keyboard.isDown('left') or love.keyboard.isDown('right') then
-		if math.floor(counter/15) % 2 == 0 then
+		if math.floor(self.counter/15) % 2 == 0 then
 			self.current = self.stepLeft
 		else
 			self.current = self.stepRight
